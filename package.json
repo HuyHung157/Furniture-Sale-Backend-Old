@@ -1,26 +1,17 @@
 {
-  "name": "furniture-sale",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "server",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/HuyHung157/Furniture-Sale-Backend.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/HuyHung157/Furniture-Sale-Backend/issues"
-  },
-  "homepage": "https://github.com/HuyHung157/Furniture-Sale-Backend#readme",
   "dependencies": {
-    "ejs": "^3.1.5",
-    "express": "^4.17.1",
-    "express-generator": "^4.16.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
     "pg": "^8.3.3"
   },
   "devDependencies": {
