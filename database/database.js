@@ -1,5 +1,6 @@
-const dbConfig = require('./db.config');
-const Sequelize = require('sequelize');
+import dbConfig from './db.config';
+import Sequelize from 'sequelize';
+
 const sequelize = new Sequelize(
     dbConfig.DB || 'postgres',
     dbConfig.USER || 'postgres',

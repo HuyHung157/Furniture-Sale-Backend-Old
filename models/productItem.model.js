@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../database/database').sequelize;
-const Op = require('../database/database').Op;
+import Sequelize from 'sequelize';
+import { sequelize } from '../database/database';
+import { Op } from '../database/database';
 
 const ProductItem = sequelize.define("product_item", {
     id: {
@@ -36,4 +36,4 @@ const ProductItem = sequelize.define("product_item", {
     timestamps: false,
     freezeTableName: true
 });
-module.exports = ProductItem;
+export default ProductItem;

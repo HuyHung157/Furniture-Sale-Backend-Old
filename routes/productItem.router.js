@@ -1,7 +1,11 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const ProductList = require('../models/productList.model');
-const ProductItem = require('../models/productItem.model');
+import ProductList from '../models/productList.model';
+import ProductItem from '../models/productItem.model';
+import bodyParser from 'body-parser';
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
 
 // Insert
 router.post('/', async (req, res) => {

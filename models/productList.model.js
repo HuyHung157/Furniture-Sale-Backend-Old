@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize');
-const ProductItem = require('./productItem.model');
-const sequelize = require('../database/database').sequelize;
-const Op = require('../database/database').Op;
+import Sequelize from 'sequelize';
+import ProductItem from './productItem.model';
+import { sequelize } from '../database/database';
+import { Op } from '../database/database';
 
 const ProductList = sequelize.define("product_list", {
     id: {
@@ -25,4 +25,4 @@ const ProductList = sequelize.define("product_list", {
 ProductList.hasMany(ProductItem, { foreignKey: 'product_list_id', sourceKey: 'id' });
 ProductItem.belongsTo(ProductList, { foreignKey: 'product_list_id', targetKEY: 'id' })
 
-module.exports = ProductList;
+export default ProductList;
