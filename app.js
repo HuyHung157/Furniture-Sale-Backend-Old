@@ -4,12 +4,14 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 import indexRouter from './routes/index';
 import productItemRouter from './routes/productItem.router';
 import productListRouter from './routes/productList.router';
 
 const app = express();
+app.use(cors())
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -25,8 +27,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/productItem', productItemRouter);
-app.use('/productList', productListRouter);
+app.use('/productItem', cors(), productItemRouter);
+app.use('/productList', cors(), productListRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

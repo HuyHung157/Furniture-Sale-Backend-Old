@@ -44,4 +44,84 @@ router.post('/', async (req, res) => {
         })
     }
 });
+
+router.get('/', async (req, res) => {
+    const productName = req.query.product_name;
+    var condition = productName ? { productName: { [Op.iLike]: `%${productName}%` } } : null;
+
+    ProductItem.findAll({ where: condition })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving tutorials."
+            });
+        });
+});
+
+router.post('/:id', async (req, res) => {
+    const id = req.params.id;
+
+    ProductItem.update(req.body, {
+        where: { id: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Tutorial was updated successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating Tutorial with id=" + id
+            });
+        });
+});
+
+router.delete('/:id', async (req, res) => {
+    const id = req.params.id;
+
+    ProductItem.destroy({
+        where: { id: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Tutorial was deleted successfully!"
+                });
+            } else {
+                res.send({
+                    message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Could not delete Tutorial with id=" + id
+            });
+        });
+});
+
+router.delete('/', async (req, res) => {
+    ProductItem.destroy({
+        where: {},
+        truncate: false
+    })
+        .then(nums => {
+            res.send({ message: `${nums} Tutorials were deleted successfully!` });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while removing all tutorials."
+            });
+        });
+});
 module.exports = router;
