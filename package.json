@@ -1,28 +1,23 @@
 {
-  "name": "server",
-  "version": "0.0.0",
-  "private": true,
+  "name": "test-postgres",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon ./bin/www --exec babel-node",
-    "debug": "node --nolazy ./bin/www"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "dotenv": "^8.2.0",
-    "ejs": "~2.6.1",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1",
-    "pg": "^8.3.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "pg": "^8.4.2",
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "cors": "^2.8.5",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.6"
   }
 }
