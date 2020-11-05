@@ -19,11 +19,11 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.tutorials = require("./product.model")(sequelize, Sequelize);
-db.tag = require("./category.model.js")(sequelize, Sequelize);
+db.product = require("./product.model")(sequelize, Sequelize);
+db.category = require("./category.model.js")(sequelize, Sequelize);
 
 module.exports = (sequelize, Sequelize) => {
-  const Tutorial = sequelize.define("tutorial_TAG", {
+  const Product_Category = sequelize.define("product_category", {
     tag_id: {
       type: Sequelize.INTEGER
     },
@@ -32,18 +32,18 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  db.tag.belongsToMany(db.tutorial, {
-    through: "tutorial_tag",
-    as: "tutorials",
-    foreignKey: "tag_id",
+  db.category.belongsToMany(db.product, {
+    through: "product_category",
+    as: "category",
+    foreignKey: "product_id",
   });
 
-  db.tutorial.belongsToMany(db.tag, {
-    through: "tutorial_tag",
-    as: "tags",
-    foreignKey: "tutorial_id",
+  db.product.belongsToMany(db.category, {
+    through: "product_category",
+    as: "product",
+    foreignKey: "category_id",
   });
-  return Tutorial;
+  return Product_Category;
 };
 
 module.exports = db;

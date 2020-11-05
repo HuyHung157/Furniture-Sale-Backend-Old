@@ -1,26 +1,43 @@
 const db = require("../models");
-const Tutorial = db.tutorial;
-const Tag = db.tag;
+const Product = db.product;
+const Category = db.category;
 
-exports.create = (tag) => {
-  return Tag.create({
-    name: tag.name,
-  })
-    .then((tag) => {
-      console.log(">> Created Tag: " + JSON.stringify(tag, null, 2));
-      return tag;
+exports.create = (req, res) => {
+  // Validate request
+  if (!req.body.name) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+    return;
+  }
+
+  // Create a Category
+  const category = {
+    name: req.body.name,
+    category_code: req.body.product_code,
+    is_available: req.body.is_available ? req.body.is_available : false,
+    description: req.body.description,
+  };
+
+  // Save Category in the database
+  Category.create(category)
+    .then(data => {
+      res.send(data);
     })
-    .catch((err) => {
-      console.log(">> Error while creating Tag: ", err);
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Category."
+      });
     });
 };
 
 exports.findAll = () => {
-  return Tag.findAll({
+  return Category.findAll({
     include: [
       {
-        model: Tutorial,
-        as: "tutorials",
+        model: Product,
+        as: "product",
         attributes: ["id", "title", "description"],
         through: {
           attributes: [],
@@ -28,20 +45,20 @@ exports.findAll = () => {
       },
     ],
   })
-    .then((tags) => {
-      return tags;
+    .then((categories) => {
+      return categories;
     })
     .catch((err) => {
-      console.log(">> Error while retrieving Tags: ", err);
+      console.log(">> Error while retrieving Categories: ", err);
     });
 };
 
 exports.findById = (id) => {
-  return Tag.findByPk(id, {
+  return Category.findByPk(id, {
     include: [
       {
-        model: Tutorial,
-        as: "tutorials",
+        model: Product,
+        as: "product",
         attributes: ["id", "title", "description"],
         through: {
           attributes: [],
@@ -49,33 +66,33 @@ exports.findById = (id) => {
       },
     ],
   })
-    .then((tag) => {
-      return tag;
+    .then((category) => {
+      return category;
     })
     .catch((err) => {
-      console.log(">> Error while finding Tag: ", err);
+      console.log(">> Error while finding Category: ", err);
     });
 };
 
-exports.addTutorial = (tagId, tutorialId) => {
-  return Tag.findByPk(tagId)
-    .then((tag) => {
-      if (!tag) {
-        console.log("Tag not found!");
+exports.addProduct = (categoryId, productId) => {
+  return Category.findByPk(categoryId)
+    .then((category) => {
+      if (!category) {
+        console.log("Category not found!");
         return null;
       }
-      return Tutorial.findByPk(tutorialId).then((tutorial) => {
-        if (!tutorial) {
-          console.log("Tutorial not found!");
+      return Product.findByPk(productId).then((product) => {
+        if (!product) {
+          console.log("Product not found!");
           return null;
         }
 
-        tag.addTutorial(tutorial);
-        console.log(`>> added Tutorial id=${tutorial.id} to Tag id=${tag.id}`);
-        return tag;
+        category.addProduct(product);
+        console.log(`>> added Product id=${product.id} to Category id= ${category.id} `);
+        return category;
       });
     })
     .catch((err) => {
-      console.log(">> Error while adding Tutorial to Tag: ", err);
+      console.log(">> Error while adding Product to Category: ", err);
     });
 };

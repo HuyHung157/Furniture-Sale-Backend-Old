@@ -1,11 +1,11 @@
 const db = require("../models");
-const Product = db.tutorials;
+const Product = db.product;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Product
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
+  if (!req.body.name) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
@@ -13,21 +13,29 @@ exports.create = (req, res) => {
   }
 
   // Create a Product
-  const tutorial = {
-    title: req.body.title,
+  const product = {
+    name: req.body.name,
+    product_code: req.body.product_code,
+    price: req.body.price,
+    price_before: req.body.price_before,
+    rate: req.body.rate,
+    vote: req.body.vote,
+    size: req.body.size,
+    color: req.body.color,
+    image_url: req.body.image_url,
+    is_available: req.body.is_available ? req.body.is_available : false,
     description: req.body.description,
-    published: req.body.published ? req.body.published : false
   };
 
   // Save Product in the database
-  Product.create(tutorial)
+  Product.create(product)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Tutorial."
+          err.message || "Some error occurred while creating the Product."
       });
     });
 };
@@ -127,20 +135,6 @@ exports.deleteAll = (req, res) => {
       res.status(500).send({
         message:
           err.message || "Some error occurred while removing all products."
-      });
-    });
-};
-
-// Find all published Products
-exports.findAllPublished = (req, res) => {
-  Product.findAll({ where: { published: true } })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving products."
       });
     });
 };
