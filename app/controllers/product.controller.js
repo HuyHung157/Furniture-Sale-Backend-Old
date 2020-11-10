@@ -45,7 +45,14 @@ exports.findAll = (req, res) => {
   const title = req.query.title;
   var condition = title ? { title: { [Op.iLike]: `%${title}%` } } : null;
 
-  Product.findAll({ where: condition })
+  Product.findAll(
+    {
+      where: condition,
+      order: [
+        ['id', 'ASC']
+      ],
+    },
+  )
     .then(data => {
       res.send(data);
     })
@@ -74,25 +81,33 @@ exports.findOne = (req, res) => {
 
 // Update a Product by the id in the request
 exports.update = (req, res) => {
-  const id = req.params.id;
+  // req.body.id = req.params.id;
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+    return;
+  }
 
   Product.update(req.body, {
-    where: { id: id }
+    where: { id: req.params.id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
+          data: req.body,
           message: "Product was updated successfully."
         });
       } else {
         res.send({
+          data: req,
           message: `Cannot update Product with id=${id}. Maybe Product was not found or req.body is empty!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating Product with id=" + id
+        message: "Error updating Product with id=" + id + ', '
       });
     });
 };

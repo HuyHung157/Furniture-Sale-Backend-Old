@@ -33,7 +33,11 @@ module.exports = (sequelize, Sequelize) => {
     description: {
       type: Sequelize.STRING
     }
-  });
+  },
+    {
+      freezeTableName: true
+    }
+  );
 
   return Product;
 };

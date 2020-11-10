@@ -1,6 +1,6 @@
 module.exports = app => {
   const product = require("../controllers/product.controller.js");
-
+  const cors = require("cors");
   var routerProduct = require("express").Router();
 
   // Create a new Tutorial
@@ -21,5 +21,5 @@ module.exports = app => {
   // Create a new Tutorial
   routerProduct.delete("/", product.deleteAll);
 
-  app.use('/api/product', routerProduct);
+  app.use('/api/product', cors(), routerProduct);
 };
